@@ -2,10 +2,14 @@ FROM centos:centos6
 
 MAINTAINER Keta Guo "keta.guo@gmail.com"
 
-RUN yum install -y redhat-lsb wget zip unzip
+RUN yum install -y wget zip unzip
+RUN cd /etc/yum.repos.d/ &&	\
+		wget http://mirrors.163.com/.help/CentOS6-Base-163.repo && \
+		mv CentOS6-Base-163.repo CentOS-Base.repo
+
+RUN yum clean all && yum makecache && yum install -y redhat-lsb
 
 RUN cd /home && mkdir srs && cd srs
-
 WORKDIR /home/srs
 RUN wget http://www.ossrs.net/srs.release/releases/files/SRS-CentOS6-x86_64-2.0.239.zip
 RUN unzip SRS-CentOS6-x86_64-2.0.239.zip
